@@ -590,7 +590,7 @@
       </field>
     </message>
     <message id="441" name="GNSS_INTEGRITY">
-      <description>Global integrity and resilience status for a GNSS receiver, like jamming and spoofing summary states, signal authentication and system errors. Per-band RF diagnostics will be in GNSS_BANDS.</description>
+      <description>Global integrity and resilience status for a GNSS receiver, like jamming and spoofing summary states, signal authentication and system errors. Per-band RF diagnostics are in GNSS_BANDS.</description>
       <field type="uint8_t" name="id" instance="true">GNSS receiver id. Must match instance ids of other messages from same receiver.</field>
       <field type="uint32_t" name="system_errors" enum="GNSS_SYSTEM_ERROR_FLAGS">Bitmask of errors in the GPS system. Vendors set only the bits they can detect.</field>
       <field type="uint8_t" name="antenna_state" enum="GNSS_ANTENNA_STATE">Status of the main antenna supervisor.</field>
@@ -604,6 +604,28 @@
       <field type="uint16_t" name="corrections_age" units="cs" invalid="UINT16_MAX">Age of the most recently applied differential corrections, in centiseconds (10ms units).</field>
       <field type="uint8_t" name="cpu_load" units="%" invalid="UINT8_MAX">Receiver CPU load in percent.</field>
       <field type="uint32_t" name="up_time" units="s" invalid="UINT32_MAX">Time elapsed since the startup or the last reset of the receiver.</field>
+    </message>
+    <message id="442" name="GNSS_BANDS">
+      <description>Per-band RF front-end diagnostics for a GNSS receiver. Sent once per RF front-end / frequency band. Global resilience states are in GNSS_INTEGRITY.</description>
+      <field type="uint8_t" name="receiver_id" instance="true">GNSS receiver id. Must match instance ids of other messages from same receiver.</field>
+      <field type="uint8_t" name="band_id">RF band id.</field>
+      <field type="uint32_t" name="frequency" units="Hz" invalid="0">Center frequency of this RF band in Hz. 0 if not known.</field>
+      <field type="uint8_t" name="band_jamming_state" enum="GNSS_JAMMING_STATE">Per-band jamming state.</field>
+      <!-- Raw RF front-end diagnostics -->
+      <field type="uint16_t" name="noise_floor" invalid="UINT16_MAX">Raw noise floor as measured by the receiver front-end.</field>
+      <field type="uint16_t" name="agc_count" invalid="UINT16_MAX">Automatic Gain Control (AGC) level.</field>
+      <field type="uint8_t" name="jamming_indicator" invalid="UINT8_MAX">Continuous Wave (CW) jamming indicator.</field>
+      <!-- Interference characteristics -->
+      <field type="uint16_t" name="interference_bandwidth" units="kHz" invalid="UINT16_MAX">Bandwidth of detected interference in this band (kHz). 0 for pulsed interference.</field>
+      <field type="int8_t" name="interference_power" units="dBm" invalid="INT8_MIN">Estimated interference power in this band (dBm). 0 if not estimable or manual notch filter.</field>
+      <!-- I/Q diagnostics — antenna / signal chain health -->
+      <field type="int8_t" name="ofs_i" invalid="INT8_MAX">Imbalance of I-channel.</field>
+      <field type="uint8_t" name="mag_i" invalid="UINT8_MAX">Magnitude of I-channel (0=no signal).</field>
+      <field type="int8_t" name="ofs_q" invalid="INT8_MAX">Imbalance of Q-channel.</field>
+      <field type="uint8_t" name="mag_q" invalid="UINT8_MAX">Magnitude of Q-channel (0=no signal).</field>
+      <!-- Per-band antenna diagnostics -->
+      <field type="uint8_t" name="band_antenna_state" enum="GNSS_ANTENNA_STATE">Status of the antenna for this band.</field>
+      <field type="uint8_t" name="band_antenna_power" enum="GNSS_ANTENNA_POWER">Power state of the antenna for this band.</field>
     </message>
     <!-- Target info from a sensor on the target -->
     <message id="510" name="TARGET_ABSOLUTE">
