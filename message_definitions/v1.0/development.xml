@@ -335,8 +335,16 @@
       <entry value="4" name="GNSS_ANTENNA_STATE_OPEN">
         <description>Antenna open circuit (disconnected).</description>
       </entry>
-      <entry value="5" name="GNSS_ANTENNA_STATE_POWER_OFF">
+    </enum>
+    <enum name="GNSS_ANTENNA_POWER">
+      <entry value="0" name="GNSS_ANTENNA_POWER_UNKNOWN">
+        <description>Power state unknown.</description>
+      </entry>
+      <entry value="1" name="GNSS_ANTENNA_POWER_OFF">
         <description>Antenna power is off.</description>
+      </entry>
+      <entry value="2" name="GNSS_ANTENNA_POWER_ON">
+        <description>Antenna power is on.</description>
       </entry>
     </enum>
     <enum name="GNSS_AUTHENTICATION_STATE">
@@ -380,14 +388,11 @@
       <entry value="1" name="GNSS_SPOOFING_STATE_NOT_SPOOFED">
         <description>The GNSS receiver detected no signal spoofing.</description>
       </entry>
-      <entry value="2" name="GNSS_SPOOFING_STATE_MITIGATED">
-        <description>The GNSS receiver detected and mitigated signal spoofing.</description>
-      </entry>
-      <entry value="3" name="GNSS_SPOOFING_STATE_DETECTED">
+      <entry value="2" name="GNSS_SPOOFING_STATE_DETECTED">
         <description>The GNSS receiver detected signal spoofing but still has a fix.</description>
       </entry>
-      <entry value="4" name="GNSS_SPOOFING_STATE_AFFIRMED">
-        <description>The GNSS receiver strongly confirmed signal spoofing.</description>
+      <entry value="3" name="GNSS_SPOOFING_STATE_AFFIRMED">
+        <description>The GNSS receiver strongly confirmed signal spoofing by multiple independent indicators.</description>
       </entry>
     </enum>
     <enum name="GNSS_RAIM_STATE">
@@ -589,10 +594,11 @@
       <field type="uint8_t" name="id" instance="true">GNSS receiver id. Must match instance ids of other messages from same receiver.</field>
       <field type="uint32_t" name="system_errors" enum="GNSS_SYSTEM_ERROR_FLAGS">Bitmask of errors in the GPS system. Vendors set only the bits they can detect.</field>
       <field type="uint8_t" name="antenna_state" enum="GNSS_ANTENNA_STATE">Status of the main antenna supervisor.</field>
+      <field type="uint8_t" name="antenna_power" enum="GNSS_ANTENNA_POWER">Power state of the main antenna.</field>
       <field type="uint8_t" name="authentication_state" enum="GNSS_AUTHENTICATION_STATE">Signal authentication state of the GNSS system.</field>
       <field type="uint8_t" name="jamming_state" enum="GNSS_JAMMING_STATE">Signal jamming state of the GNSS system.</field>
       <field type="uint8_t" name="spoofing_state" enum="GNSS_SPOOFING_STATE">Signal spoofing state of the GNSS system.</field>
-      <field type="uint8_t" name="raim_state" enum="GNSS_RAIM_STATE">The state of the RAIM processing.</field>
+      <field type="uint8_t" name="raim_state" enum="GNSS_RAIM_STATE">Status of the RAIM processing.</field>
       <field type="uint16_t" name="raim_hfom" units="cm" invalid="UINT16_MAX">Horizontal expected accuracy using satellites successfully validated using RAIM.</field>
       <field type="uint16_t" name="raim_vfom" units="cm" invalid="UINT16_MAX">Vertical expected accuracy using satellites successfully validated using RAIM.</field>
       <field type="uint16_t" name="corrections_age" units="cs" invalid="UINT16_MAX">Age of the most recently applied differential corrections, in centiseconds (10ms units).</field>
